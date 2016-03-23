@@ -1,0 +1,12 @@
+%{"base64url": {:hex, :base64url, "0.0.1"},
+  "certifi": {:hex, :certifi, "0.4.0"},
+  "dialyze": {:hex, :dialyze, "0.2.0"},
+  "hackney": {:hex, :hackney, "1.5.7"},
+  "httpoison": {:hex, :httpoison, "0.8.2"},
+  "idna": {:hex, :idna, "1.2.0"},
+  "jose": {:hex, :jose, "1.4.2"},
+  "metrics": {:hex, :metrics, "1.0.1"},
+  "mimerl": {:hex, :mimerl, "1.0.2"},
+  "poison": {:hex, :poison, "2.1.0"},
+  "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.0"},
+  "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"}}
