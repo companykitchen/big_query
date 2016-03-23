@@ -12,6 +12,7 @@ defmodule BigQuery.Resource do
 
       import BigQuery.Resource
 
+      @doc false
       def base_url(), do: @bigquery_url
     end
   end
