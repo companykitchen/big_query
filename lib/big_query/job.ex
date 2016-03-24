@@ -29,11 +29,7 @@ defmodule BigQuery.Job do
     case get(url) do
       {:ok, resp} ->
         if resp[:status_code] in 200..299 do
-          Poison.decode(resp[:body], as: %Job{
-            configuration: %JobConfiguration{},
-            jobReference: %JobReference{},
-            status: %JobStatus{},
-            statistics: %JobStatistics{}})
+          Poison.decode(resp[:body], as: %Job{})
         else
           {:error, "BigQuery returned a status of #{resp[:status_code]} for job_id: #{job_id}. Response body: #{inspect resp[:body]}"}
         end
@@ -54,9 +50,7 @@ defmodule BigQuery.Job do
     case get(url) do
       {:ok, resp} ->
         if resp[:status_code] in 200..299 do
-          query_resp = Poison.decode!(resp[:body], as: %QueryResultsResponse{
-            schema: %Schema{}, jobReference: %JobReference{},
-            rows: [%QueryResultRow{}], errors: [%Error{}]})
+          query_resp = Poison.decode!(resp[:body], as: %QueryResultsResponse{})
 
           result = if query_resp.jobComplete == false do
             # The query hasn't finished running. Sleep for a bit an try again.
@@ -90,11 +84,7 @@ defmodule BigQuery.Job do
     case post(url, job) do
       {:ok, resp} ->
         if resp[:status_code] in 200..299 do
-          Poison.decode(resp[:body], as: %Job{
-            configuration: %JobConfiguration{},
-            jobReference: %JobReference{},
-            status: %JobStatus{},
-            statistics: %JobStatistics{}})
+          Poison.decode(resp[:body], as: %Job{})
         else
           {:error, "BigQuery returned a status of #{resp[:status_code]}. Response body: #{inspect resp[:body]}"}
         end
@@ -118,9 +108,7 @@ defmodule BigQuery.Job do
     case post(url, query) do
       {:ok, resp} ->
         if resp[:status_code] in 200..299 do
-          Poison.decode(resp[:body], as: %QueryResultsResponse{
-            schema: %Schema{}, jobReference: %JobReference{},
-            rows: [%QueryResultRow{}], errors: [%Error{}]})
+          Poison.decode(resp[:body], as: %QueryResultsResponse{})
         else
           {:error, "BigQuery returned a status of #{resp[:status_code]}. Response body: #{inspect resp[:body]}"}
         end
@@ -143,7 +131,7 @@ defmodule BigQuery.Job do
     case get(url) do
       {:ok, resp} ->
         if resp[:status_code] in 200..299 do
-          list_resp = Poison.decode!(resp[:body], as: %JobList{jobs: [%Job{}]})
+          list_resp = Poison.decode!(resp[:body], as: %JobList{})
 
           if list_resp.nextPageToken != nil do
             Logger.debug "Retrieved #{length list_resp.jobs} jobs. Loading more..."

@@ -1,4 +1,4 @@
-defmodule BigQuery.JobList.DecoderTest do
+defmodule BigQuery.Types.JobList.DecoderTest do
   use ExUnit.Case
   doctest BigQuery.Types.JobList
 
@@ -9,7 +9,7 @@ defmodule BigQuery.JobList.DecoderTest do
     job_list = %{"kind" => "bigquery#jobList", "etag" => "blar"}
 
     expected = %JobList{kind: "bigquery#jobList", etag: "blar", jobs: []}
-    result = Poison.Decode.decode(job_list, as: %JobList{jobs: [%Job{}]})
+    result = Poison.Decode.decode(job_list, as: %JobList{})
 
     assert result == expected
   end
@@ -17,7 +17,7 @@ defmodule BigQuery.JobList.DecoderTest do
   test "joblist with jobs field set as nil" do
     job_list = %{"etag" => "blar", "jobs" => nil}
     expected = %JobList{etag: "blar", jobs: []}
-    result = Poison.Decode.decode(job_list, as: %JobList{jobs: [%Job{}]})
+    result = Poison.Decode.decode(job_list, as: %JobList{})
 
     assert result == expected
   end
@@ -25,7 +25,7 @@ defmodule BigQuery.JobList.DecoderTest do
   test "joblist with a single job" do
     job_list = %{"etag" => "blar", "jobs" => [%{"etag" => "blar_job"}]}
     expected = %JobList{etag: "blar", jobs: [%Job{etag: "blar_job"}]}
-    result = Poison.Decode.decode(job_list, as: %JobList{jobs: [%Job{}]})
+    result = Poison.Decode.decode(job_list, as: %JobList{})
 
     assert result == expected
   end
@@ -33,7 +33,7 @@ defmodule BigQuery.JobList.DecoderTest do
   test "joblist with multiple jobs" do
     job_list = %{"etag" => "blar", "jobs" => [%{"etag" => "blar_job_1"}, %{"etag" => "blar_job_2"}, %{"etag" => "blar_job_3"}]}
     expected = %JobList{etag: "blar", jobs: [%Job{etag: "blar_job_1"}, %Job{etag: "blar_job_2"}, %Job{etag: "blar_job_3"}]}
-    result = Poison.Decode.decode(job_list, as: %JobList{jobs: [%Job{}]})
+    result = Poison.Decode.decode(job_list, as: %JobList{})
 
     assert result == expected
   end
