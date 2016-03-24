@@ -2,8 +2,7 @@ defmodule BigQuery.Job do
   require Logger
   use BigQuery.Resource
 
-  alias BigQuery.Types.{Error, Job, JobConfiguration, JobList, JobReference,
-    JobStatistics, JobStatus, QueryResultsResponse, QueryResultRow, Schema}
+  alias BigQuery.Types.{Job, JobList, QueryResultsResponse}
 
   @spec cancel(String.t, String.t) :: {:ok, Job.t} | {:error, any}
   def cancel(project_id, job_id) do

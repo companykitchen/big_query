@@ -1,7 +1,5 @@
 defmodule BigQuery.Resource do
   alias BigQuery.TokenServer
-  alias HTTPoison.Response
-  alias HTTPoison.Error
 
   @type headers :: [{String.t, String.t}]
   @type response :: %{status_code: integer, body: String.t, headers: headers}
