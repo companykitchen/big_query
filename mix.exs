@@ -5,7 +5,7 @@ defmodule BigQuery.Mixfile do
     [app: :big_query,
      version: "0.0.2",
      name: "BigQuery",
-     source_url: "https://github.com/jordan0day/big_query",
+     source_url: "https://github.com/companykitchen/big_query",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -48,7 +48,8 @@ defmodule BigQuery.Mixfile do
     [
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       licenses: ["Apache 2.0"],
-      links: %{"GitHub" => "https://github.com/jordan0day/big_query"}
+      links: %{"GitHub" => "https://github.com/companykitchen/big_query"},
+      maintainers: ["Jordan Day"]
     ]
   end
 end
