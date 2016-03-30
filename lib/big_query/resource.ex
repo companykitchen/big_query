@@ -50,6 +50,30 @@ defmodule BigQuery.Resource do
     end
   end
 
+  @doc """
+  BigQuery really doesn't like if when you try to POST a JSON object that has
+  null values, but doesn't seem to mind missing fields.
+  So this is just a little helper function to remove any fields with a nil
+  value from a map/struct.
+  """
+  @spec clean_up_map(map()) :: map()
+  def clean_up_map(%{__struct__: _struct} = map) do
+    map
+    |> Map.from_struct
+    |> clean_up_map
+  end
+
+  def clean_up_map(map) do
+    map
+    |> Enum.filter(fn ({_k, v}) -> v != nil end)
+    |> Enum.map(fn ({k, v}) -> {k, clean_map_field(v)} end)
+    |> Enum.into(%{})
+  end
+
+  defp clean_map_field(map) when is_map(map), do: clean_up_map(map)
+  defp clean_map_field(list) when is_list(list), do: Enum.map(list, &clean_map_field/1)
+  defp clean_map_field(v), do: v
+
   @spec build_query_string([{String.t | atom, any}]) :: String.t
   def build_query_string(params) do
     params

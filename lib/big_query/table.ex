@@ -1,9 +1,9 @@
 defmodule BigQuery.Table do
   use BigQuery.Resource
 
-  alias BigQuery.Types.{Table, TableList}
+  alias BigQuery.Types.{Column, Table, TableList}
 
-  @spec get(String.t, String.t, String.t) :: {:ok, Table.t}| {:error, any}
+  @spec get(String.t, String.t, String.t) :: {:ok, Table.t}| {:error, BigQuery.Resource.response | String.t}
   def get(project_id, dataset_id, table_id) do
     url = table_url(project_id, dataset_id, table_id)
 
@@ -12,14 +12,38 @@ defmodule BigQuery.Table do
         if resp[:status_code] in 200..299 do
           Poison.decode(resp[:body], as: %Table{})
         else
-          {:error, "BigQuery returned a status of #{resp[:status_code]} for table_id #{table_id}. Response body: #{inspect resp[:body]}"}
+          {:error, resp}
         end
       {:error, reason} ->
         {:error, "Error getting Table resource for table_id: #{table_id}:\n#{inspect reason}"}
     end
   end
 
-  @spec list(String.t, String.t, opts :: [maxResults: integer  | nil, pageToken: String.t | nil]) :: {:ok, [Table.t]} | {:error, any}
+  @doc """
+  Insert a Table resource.
+
+  The table resource requires, at minimum, the schema and tableReference fields
+  to be non-nil.
+  """
+  @spec insert(String.t, String.t, Table.t) :: {:ok, Table.t} | {:error, BigQuery.Resource.response | String.t}
+  def insert(project_id, dataset_id, %Table{schema: schema, tableReference: table_ref} = table) when schema != nil and table_ref != nil do
+    url = tables_url(project_id, dataset_id)
+
+    table_map = clean_up_map(table)
+
+    case post(url, table_map) do
+      {:ok, resp} ->
+        if resp[:status_code] in 200..299 do
+          Poison.decode(resp[:body], as: %Table{})
+        else
+          {:error, resp}
+        end
+      {:error, reason} ->
+        {:error, "Error inserting new BigQuery table: #{inspect reason}"}
+    end
+  end
+
+  @spec list(String.t, String.t, opts :: [maxResults: integer  | nil, pageToken: String.t | nil]) :: {:ok, [Table.t]} | {:error, BigQuery.Resource.response | String.t}
   def list(project_id, dataset_id, opts \\ [maxResults: nil, pageToken: nil]) do
     case do_list_tables(project_id, dataset_id, opts) do
       {:error, reason} -> {:error, reason}
@@ -27,7 +51,7 @@ defmodule BigQuery.Table do
     end
   end
 
-  @spec do_list_tables(String.t, String.t, Keyword.t) :: [Table.t] | {:error, any}
+  @spec do_list_tables(String.t, String.t, Keyword.t) :: [Table.t] | {:error, BigQuery.Resource.response | String.t}
   defp do_list_tables(project_id, dataset_id, opts) do
     url = case build_query_string(opts) do
       "" -> tables_url(project_id, dataset_id)
@@ -48,7 +72,7 @@ defmodule BigQuery.Table do
             list_resp
           end
         else
-          {:error, "BigQuery returned status #{resp[:status_code]}. Response body: #{inspect resp[:body]}"}
+          {:error, resp}
         end
       {:error, reason} ->
         {:error, "Error listing tables\n#{inspect reason}"}
