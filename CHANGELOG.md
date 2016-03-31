@@ -10,3 +10,7 @@
 
 * HTTP errors return full response map for more insight into the error.
 * Added ability to insert tables.
+
+# 0.0.4
+
+* Added streaming functionality.
