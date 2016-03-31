@@ -2,7 +2,7 @@ defmodule BigQuery.Types.Schema do
   defstruct fields: nil
 
   @type t :: %__MODULE__{
-    fields: [SchemaField.t]
+    fields: [BigQuery.Types.Schema.SchemaField.t]
   }
 
   defmodule SchemaField do
