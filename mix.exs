@@ -3,7 +3,7 @@ defmodule BigQuery.Mixfile do
 
   def project do
     [app: :big_query,
-     version: "0.0.4",
+     version: "0.0.5",
      name: "BigQuery",
      source_url: "https://github.com/companykitchen/big_query",
      elixir: "~> 1.2",
@@ -19,7 +19,7 @@ defmodule BigQuery.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison],
+    [applications: [:logger, :jose, :httpoison],
      mod: {BigQuery, []},
      env: [bigquery_private_key_path: "priv/bigquery_private_key.json"]]
   end

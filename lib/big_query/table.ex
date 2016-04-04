@@ -43,16 +43,8 @@ defmodule BigQuery.Table do
     end
   end
 
-  @spec list(String.t, String.t, opts :: [maxResults: integer  | nil, pageToken: String.t | nil]) :: {:ok, [Table.t]} | {:error, BigQuery.Resource.response | String.t}
+  @spec list(String.t, String.t, opts :: [maxResults: integer  | nil, pageToken: String.t | nil]) :: {:ok, TableList.t} | {:error, BigQuery.Resource.response | String.t}
   def list(project_id, dataset_id, opts \\ [maxResults: nil, pageToken: nil]) do
-    case do_list_tables(project_id, dataset_id, opts) do
-      {:error, reason} -> {:error, reason}
-      tables -> {:ok, tables}
-    end
-  end
-
-  @spec do_list_tables(String.t, String.t, Keyword.t) :: [Table.t] | {:error, BigQuery.Resource.response | String.t}
-  defp do_list_tables(project_id, dataset_id, opts) do
     url = case build_query_string(opts) do
       "" -> tables_url(project_id, dataset_id)
       qs -> tables_url(project_id, dataset_id) <> "?" <> qs
@@ -62,15 +54,8 @@ defmodule BigQuery.Table do
       {:ok, resp} ->
         if resp[:status_code] in 200..299 do
           list_resp = Poison.decode!(resp[:body], as: %TableList{})
-          if list_resp.nextPageToken != nil do
-            # TODO: THis isn't tail recursive...
-            new_opts = Keyword.put(opts, :pageToken, list_resp.nextPageToken)
-            more_tables = do_list_tables(project_id, dataset_id, new_opts)
 
-            %{list_resp | tables: list_resp.tables ++ more_tables}
-          else
-            list_resp
-          end
+          {:ok, list_resp}
         else
           {:error, resp}
         end
