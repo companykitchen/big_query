@@ -14,3 +14,7 @@
 # 0.0.4
 
 * Added streaming functionality.
+
+# 0.0.5
+
+* Removed "list all"-style behavior from Job and Table. Users should examine the returns structs to see if further requests are required (using the provided `pageToken`).

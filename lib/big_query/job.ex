@@ -44,30 +44,12 @@ defmodule BigQuery.Job do
       qs -> query_url(project_id, job_id) <> "?" <> qs
     end
 
-    Logger.debug "Querying #{url}..."
-
     case get(url) do
       {:ok, resp} ->
         if resp[:status_code] in 200..299 do
           query_resp = Poison.decode!(resp[:body], as: %QueryResultsResponse{})
 
-          result = if query_resp.jobComplete == false do
-            # The query hasn't finished running. Sleep for a bit an try again.
-            :timer.sleep(500)
-            get_query_results(project_id, job_id, opts)
-          else
-            if query_resp.pageToken != nil do
-              # TODO: This isn't tail recursive...
-              new_opts = Keyword.put(opts, :pageToken, query_resp.pageToken)
-              more_rows = get_query_results(project_id, job_id, new_opts)
-
-              %{query_resp | rows: query_resp.rows ++ more_rows}
-            else
-              query_resp
-            end
-          end
-
-          {:ok, result}
+          {:ok, query_resp}
         else
           {:error, resp}
         end
@@ -92,11 +74,23 @@ defmodule BigQuery.Job do
     end
   end
 
-  @spec list(String.t, opts :: [allUsers: boolean, maxResults: non_neg_integer | nil, projection: String.t | nil, stateFilter: String.t | nil]) :: {:ok, [BigQuery.Types.Job.t]} | {:error, BigQuery.Resource.response | String.t}
+  @spec list(String.t, opts :: [allUsers: boolean, maxResults: non_neg_integer | nil, projection: String.t | nil, stateFilter: String.t | nil]) :: {:ok, JobList.t} | {:error, BigQuery.Resource.response | String.t}
   def list(project_id, opts \\ [allUsers: nil, maxResults: nil, projection: nil, stateFilter: nil]) do
-    case list_jobs(project_id, nil, opts) do
-      job_list when is_list(job_list) -> {:ok, job_list}
-      error -> error
+    url = case build_query_string(opts) do
+      "" -> jobs_url(project_id)
+      qs -> jobs_url(project_id) <> "?" <> qs
+    end
+
+    case get(url) do
+      {:ok, resp} ->
+        if resp[:status_code] in 200..299 do
+          list_resp = Poison.decode!(resp[:body], as: %JobList{})
+          {:ok, list_resp}
+        else
+          {:error, resp}
+        end
+      {:error, reason} ->
+        {:error, "Error listing jobs\n#{inspect reason}"}
     end
   end
 
@@ -113,36 +107,6 @@ defmodule BigQuery.Job do
         end
       {:error, reason} ->
         {:error, "Error performing query:\n#{inspect reason}"}
-    end
-  end
-
-  @spec list_jobs(String.t, String.t | nil, Keyword.t) :: [BigQuery.Types.Job.t] | {:error, BigQuery.Resource.response | String.t}
-  defp list_jobs(project_id, page_token, opts) do
-    new_opts = Keyword.put(opts, :pageToken, page_token)
-
-    url = case build_query_string(new_opts) do
-      "" -> jobs_url(project_id)
-      qs -> jobs_url(project_id) <> "?" <> qs
-    end
-
-    case get(url) do
-      {:ok, resp} ->
-        if resp[:status_code] in 200..299 do
-          list_resp = Poison.decode!(resp[:body], as: %JobList{})
-
-          if list_resp.nextPageToken != nil do
-            Logger.debug "Retrieved #{length list_resp.jobs} jobs. Loading more..."
-            # TODO: This isn't tail-recursive...
-            jobs = list_jobs(project_id, list_resp.nextPageToken, opts)
-            list_resp.jobs ++ jobs
-          else
-            list_resp.jobs
-          end
-        else
-          {:error, resp}
-        end
-      {:error, reason} ->
-        {:error, "Error listing jobs\n#{inspect reason}"}
     end
   end
 
