@@ -57,7 +57,7 @@ end
 
 
 defmodule BigQuery.Types.ConfigurationLoad do
-  alias BigQuery.Types.{TableReference}
+  alias BigQuery.Types.{TableReference, Schema}
   @moduledoc """
   Configuration for a Load job.
   See https://cloud.google.com/bigquery/docs/reference/v2/jobs#configuration.load
@@ -102,7 +102,7 @@ defmodule BigQuery.Types.ConfigurationLoad do
     maxBadRecords: integer,
     projectionFields: [],
     quote: String.t,
-    schema: map(),
+    schema: Schema.t,,
     schemaInline: String.t,
     schemaInlineFormat: String.t,
     skipLeadingRows: integer,
