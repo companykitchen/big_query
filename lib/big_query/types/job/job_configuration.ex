@@ -102,7 +102,7 @@ defmodule BigQuery.Types.ConfigurationLoad do
     maxBadRecords: integer,
     projectionFields: [],
     quote: String.t,
-    schema: Schema.t,,
+    schema: Schema.t,
     schemaInline: String.t,
     schemaInlineFormat: String.t,
     skipLeadingRows: integer,

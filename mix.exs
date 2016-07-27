@@ -3,10 +3,10 @@ defmodule BigQuery.Mixfile do
 
   def project do
     [app: :big_query,
-     version: "0.0.5",
+     version: "0.0.6",
      name: "BigQuery",
      source_url: "https://github.com/companykitchen/big_query",
-     elixir: "~> 1.2",
+     elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps,
@@ -35,7 +35,7 @@ defmodule BigQuery.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:jose, "1.4.2"},
+      {:jose, "1.7.9"},
       {:poison, "2.1.0"},
       {:httpoison, "0.8.2"},
       {:dialyze, "0.2.0", only: :dev},
