@@ -66,10 +66,10 @@ defmodule BigQuery.Table do
 
 
   @doc """
-      Delete a Table.
+  Delete a Table.
 
-      Deletes the table specified by tableId from the dataset. If the table contains data, all the data will be deleted.
-      """
+  Deletes the table specified by tableId from the dataset. If the table contains data, all the data will be deleted.
+  """
 
   @spec delete(String.t, String.t, String.t) :: :ok | {:error, BigQuery.Resource.response | String.t}
   def delete(project_id, dataset_id, table_id) do
