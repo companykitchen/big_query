@@ -51,21 +51,21 @@ defmodule BigQuery.Resource do
   end
 
 
-    @spec delete(String.t, any, [{String.t, String.t}], [timeout: integer]) :: {:ok, response} | {:error, String.t}
-    def delete(url, body \\ nil, headers \\ [], opts \\ [timeout: 120_000]) do
-      case TokenServer.get_token() do
-        {:ok, access_token} ->
-          headers = headers
-                    |> add_auth_header(access_token)
-                    |> add_header("Content-Type", "application/json")
+   @spec delete(String.t, [{String.t, String.t}], [timeout: integer]) :: {:ok, response} | {:error, String.t}
+   def delete(url, headers \\ [], opts \\ [timeout: 120_000]) do
+     case TokenServer.get_token() do
+       {:ok, access_token} ->
+         headers = headers
+                   |> add_auth_header(access_token)
+                   |> add_header("Content-Type", "application/json")
 
-          case HTTPoison.delete(url, headers, timeout: opts[:timeout], recv_timeout: opts[:timeout]) do
-            {:error, error} ->
-              {:error, inspect error.reason}
-            {:ok, resp} -> {:ok, Map.from_struct(resp)}
-          end
-      end
-    end
+         case HTTPoison.delete(url, headers, timeout: opts[:timeout], recv_timeout: opts[:timeout]) do
+          {:error, error} ->
+            {:error, inspect error.reason}
+          {:ok, resp} -> {:ok, Map.from_struct(resp)}
+         end
+     end
+   end
 
   @doc """
   BigQuery really doesn't like if when you try to POST a JSON object that has

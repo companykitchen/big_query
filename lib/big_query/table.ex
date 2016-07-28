@@ -71,21 +71,21 @@ defmodule BigQuery.Table do
       Deletes the table specified by tableId from the dataset. If the table contains data, all the data will be deleted.
       """
 
-    @spec delete(String.t, String.t, String.t) :: :ok | {:error, BigQuery.Resource.response | String.t}
-      def delete(project_id, dataset_id, table_id) do
-        url = table_url(project_id, dataset_id, table_id)
+  @spec delete(String.t, String.t, String.t) :: :ok | {:error, BigQuery.Resource.response | String.t}
+  def delete(project_id, dataset_id, table_id) do
+    url = table_url(project_id, dataset_id, table_id)
 
-        case delete(url) do
-          {:ok, resp} ->
-            if resp[:status_code] in 200..299 do
-              :ok
-            else
-              {:error, resp}
-            end
-          {:error, reason} ->
-            {:error, "Error getting Table resource for table_id: #{table_id}:\n#{inspect reason}"}
+    case delete(url) do
+      {:ok, resp} ->
+        if resp[:status_code] in 200..299 do
+          :ok
+        else
+          {:error, resp}
         end
-      end
+      {:error, reason} ->
+        {:error, "Error getting Table resource for table_id: #{table_id}:\n#{inspect reason}"}
+    end
+  end
 
 
   defp tables_url(project_id, dataset_id) do
