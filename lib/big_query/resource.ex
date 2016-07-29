@@ -50,7 +50,6 @@ defmodule BigQuery.Resource do
     end
   end
 
-
   @spec delete(String.t, [{String.t, String.t}], [timeout: integer]) :: {:ok, response} | {:error, String.t}
   def delete(url, headers \\ [], opts \\ [timeout: 120_000]) do
     case TokenServer.get_token() do
