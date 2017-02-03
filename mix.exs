@@ -9,10 +9,10 @@ defmodule BigQuery.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps,
+     deps: deps(),
      docs: [extras: ["README.md"]],
      description: "A Google BigQuery API client.",
-     package: package]
+     package: package()]
   end
 
   # Configuration for the OTP application
