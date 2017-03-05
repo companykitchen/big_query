@@ -35,9 +35,9 @@ defmodule BigQuery.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:jose, "1.7.9"},
-      {:poison, "2.1.0"},
-      {:httpoison, "0.8.2"},
+      {:jose, "~> 1.8"},
+      {:poison, "~> 3.1"},
+      {:httpoison, "~> 0.11.1"},
       {:dialyze, "0.2.0", only: :dev},
       {:earmark, "0.2.1", only: :dev},
       {:ex_doc, "0.11.4", only: :dev}
