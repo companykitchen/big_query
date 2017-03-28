@@ -55,7 +55,7 @@ defimpl Poison.Decoder, for: BigQuery.Types.QueryResultRow do
 end
 
 defmodule BigQuery.Types.QueryResultsResponse do
-  alias BigQuery.Types.{Error, JobReference, Schema}
+  alias BigQuery.Types.{Error, JobReference, QueryResultRow, Schema}
 
   defstruct kind: "bigquery#getQueryResultsResponse", etag: nil, schema: nil,
             jobReference: nil, totalRows: nil, pageToken: nil, rows: nil,

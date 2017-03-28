@@ -74,7 +74,7 @@ defmodule BigQuery.Job do
     end
   end
 
-  @spec list(String.t, opts :: [allUsers: boolean, maxResults: non_neg_integer | nil, projection: String.t | nil, stateFilter: String.t | nil]) :: {:ok, JobList.t} | {:error, BigQuery.Resource.response | String.t}
+  @spec list(String.t, opts :: [allUsers: boolean() | nil, maxResults: non_neg_integer() | nil, projection: String.t | nil, stateFilter: String.t | nil]) :: {:ok, JobList.t} | {:error, BigQuery.Resource.response | String.t}
   def list(project_id, opts \\ [allUsers: nil, maxResults: nil, projection: nil, stateFilter: nil]) do
     url = case build_query_string(opts) do
       "" -> jobs_url(project_id)
@@ -114,6 +114,7 @@ defmodule BigQuery.Job do
     jobs_url(project_id) <> "/" <> job_id
   end
 
+  @spec jobs_url(String.t) :: String.t
   defp jobs_url(project_id) do
     base_url() <> "/projects/" <> project_id <> "/jobs"
   end

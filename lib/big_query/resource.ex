@@ -93,7 +93,7 @@ defmodule BigQuery.Resource do
   @spec build_query_string([{String.t | atom, any}]) :: String.t
   def build_query_string(params) do
     params
-    |> Enum.filter(fn ({_k, v}) -> v != nil end)
+    |> Enum.reject(fn ({_k, v}) -> v == nil end)
     |> URI.encode_query
   end
 

@@ -1,7 +1,7 @@
 defmodule BigQuery.Table do
   use BigQuery.Resource
 
-  alias BigQuery.Types.{Column, Table, TableList}
+  alias BigQuery.Types.{Table, TableList}
 
   @spec get(String.t, String.t, String.t) :: {:ok, Table.t}| {:error, BigQuery.Resource.response | String.t}
   def get(project_id, dataset_id, table_id) do
