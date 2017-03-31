@@ -19,12 +19,13 @@ defmodule BigQuery.Types.Query do
   @type t :: %__MODULE__{
     kind: String.t,
     query: String.t,
-    maxResults: non_neg_integer,
-    defaultDataset: BigQuery.Types.DatasetReference.t,
-    timeoutMs: non_neg_integer,
-    dryRun: boolean,
-    useQueryCache: boolean
+    maxResults: non_neg_integer | nil,
+    defaultDataset: BigQuery.Types.DatasetReference.t | nil,
+    timeoutMs: non_neg_integer | nil,
+    dryRun: boolean | nil,
+    useQueryCache: boolean | nil
   }
+
 end
 
 defmodule BigQuery.Types.QueryResultCell do
