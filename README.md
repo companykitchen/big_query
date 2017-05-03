@@ -22,3 +22,8 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
         config :big_query,
           bigquery_private_key_path: "path/to/private_key.json"
+
+  4. If you need ask for special scopes - configure them:
+
+        config :big_query,
+          bigquery_scope: "https://www.googleapis.com/auth/drive"
