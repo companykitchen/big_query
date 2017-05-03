@@ -21,9 +21,10 @@ defmodule BigQuery.AccessToken do
     iat = :os.system_time(:seconds)
     exp = iat + 3600
 
+    scope = Application.get_env(:big_query, :scope)
     claims = %{
       "iss" => key_map["client_email"],
-      "scope" => "https://www.googleapis.com/auth/bigquery.readonly https://www.googleapis.com/auth/bigquery.insertdata https://www.googleapis.com/auth/bigquery",
+      "scope" => "#{bigquery_scope} https://www.googleapis.com/auth/bigquery.readonly https://www.googleapis.com/auth/bigquery.insertdata https://www.googleapis.com/auth/bigquery",
       "aud" => "https://www.googleapis.com/oauth2/v3/token",
       "exp" => exp,
       "iat" => iat
