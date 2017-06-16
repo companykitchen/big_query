@@ -12,9 +12,10 @@ defmodule BigQuery.Types.Query do
   * timeoutMs - [Optional] How long to wait for the query to complete, in milliseconds. The query will continue running if timeoutMs is exceeded, but the initial query request will return.
   * dryRun - [Optional] Don't actually execute the query.
   * useQueryCache - [Optional] Whether to look for the result in the query cache.
+  * maximumBillingTier - [Optional] Overrides the bigquery default value for the billing tier limit
   """
   defstruct kind: "bigquery#queryRequest", query: nil, maxResults: nil,
-            defaultDataset: nil, timeoutMs: nil, dryRun: nil, useQueryCache: nil
+            defaultDataset: nil, timeoutMs: nil, dryRun: nil, useQueryCache: nil, maximumBillingTier: nil
 
   @type t :: %__MODULE__{
     kind: String.t,
@@ -23,7 +24,8 @@ defmodule BigQuery.Types.Query do
     defaultDataset: BigQuery.Types.DatasetReference.t | nil,
     timeoutMs: non_neg_integer | nil,
     dryRun: boolean | nil,
-    useQueryCache: boolean | nil
+    useQueryCache: boolean | nil,
+    maximumBillingTier: String.t | nil 
   }
 
 end
