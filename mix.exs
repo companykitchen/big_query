@@ -3,7 +3,7 @@ defmodule BigQuery.Mixfile do
 
   def project do
     [app: :big_query,
-     version: "0.0.9",
+     version: "0.0.10",
      name: "BigQuery",
      source_url: "https://github.com/companykitchen/big_query",
      elixir: "~> 1.3",
