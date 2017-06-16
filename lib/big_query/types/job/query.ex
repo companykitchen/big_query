@@ -20,13 +20,14 @@ defmodule BigQuery.Types.Query do
   @type t :: %__MODULE__{
     kind: String.t,
     query: String.t,
-    maxResults: non_neg_integer,
-    defaultDataset: BigQuery.Types.DatasetReference.t,
-    timeoutMs: non_neg_integer,
-    dryRun: boolean,
-    useQueryCache: boolean,
-    maximumBillingTier: String.t 
+    maxResults: non_neg_integer | nil,
+    defaultDataset: BigQuery.Types.DatasetReference.t | nil,
+    timeoutMs: non_neg_integer | nil,
+    dryRun: boolean | nil,
+    useQueryCache: boolean | nil,
+    maximumBillingTier: String.t | nil 
   }
+
 end
 
 defmodule BigQuery.Types.QueryResultCell do
@@ -57,7 +58,7 @@ defimpl Poison.Decoder, for: BigQuery.Types.QueryResultRow do
 end
 
 defmodule BigQuery.Types.QueryResultsResponse do
-  alias BigQuery.Types.{Error, JobReference, Schema}
+  alias BigQuery.Types.{Error, JobReference, QueryResultRow, Schema}
 
   defstruct kind: "bigquery#getQueryResultsResponse", etag: nil, schema: nil,
             jobReference: nil, totalRows: nil, pageToken: nil, rows: nil,

@@ -43,6 +43,6 @@ defmodule BigQuery.Tabledata do
 
   @spec insert_url(String.t, String.t, String.t) :: String.t
   defp insert_url(project_id, dataset_id, table_name) do
-    "#{base_url}/projects/#{project_id}/datasets/#{dataset_id}/tables/#{table_name}/insertAll"
+    "#{base_url()}/projects/#{project_id}/datasets/#{dataset_id}/tables/#{table_name}/insertAll"
   end
 end
