@@ -4,7 +4,7 @@ defmodule BigQuery.Resource do
   @type headers :: [{String.t, String.t}]
   @type response :: %{status_code: integer, body: String.t, headers: headers}
 
-  def timeout, do: Application.get_env(:big_query, :timeout, 120_000)
+  def timeout, do: Application.get_env(:big_query, :bigquery_request_timeout, 120_000)
 
   defmacro __using__(_opts) do
     quote do
