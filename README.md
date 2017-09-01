@@ -27,3 +27,8 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
         config :big_query,
           bigquery_scope: "https://www.googleapis.com/auth/drive"
+
+  5. If you have long running requests - you can override the timeout of the http calls (in MS):
+
+        config :big_query,
+          bigquery_request_timeout: 60000

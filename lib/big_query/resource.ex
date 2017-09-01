@@ -4,6 +4,8 @@ defmodule BigQuery.Resource do
   @type headers :: [{String.t, String.t}]
   @type response :: %{status_code: integer, body: String.t, headers: headers}
 
+  def timeout, do: Application.get_env(:big_query, :bigquery_request_timeout, 120_000)
+
   defmacro __using__(_opts) do
     quote do
       @bigquery_url "https://www.googleapis.com/bigquery/v2"
@@ -16,7 +18,7 @@ defmodule BigQuery.Resource do
   end
 
   @spec get(String.t, headers, [timeout: integer]) :: {:ok, response} | {:error, String.t}
-  def get(url, headers \\ [], opts \\ [timeout: 120_000]) do
+  def get(url, headers \\ [], opts \\ [timeout: timeout()]) do
     case TokenServer.get_token() do
       {:ok, access_token} ->
         headers = headers
@@ -33,7 +35,7 @@ defmodule BigQuery.Resource do
   end
 
   @spec post(String.t, any, [{String.t, String.t}], [timeout: integer]) :: {:ok, response} | {:error, String.t}
-  def post(url, body \\ nil, headers \\ [], opts \\ [timeout: 120_000]) do
+  def post(url, body \\ nil, headers \\ [], opts \\ [timeout: timeout()]) do
     case TokenServer.get_token() do
       {:ok, access_token} ->
         headers = headers
@@ -51,7 +53,7 @@ defmodule BigQuery.Resource do
   end
 
   @spec delete(String.t, [{String.t, String.t}], [timeout: integer]) :: {:ok, response} | {:error, String.t}
-  def delete(url, headers \\ [], opts \\ [timeout: 120_000]) do
+  def delete(url, headers \\ [], opts \\ [timeout: timeout()]) do
     case TokenServer.get_token() do
       {:ok, access_token} ->
         headers = headers
