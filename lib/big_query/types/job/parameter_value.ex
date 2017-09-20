@@ -1,7 +1,9 @@
 defmodule BigQuery.Types.ParameterValue do
-  defstruct [:value]
+  defstruct [:value, :arrayValues, :structValues]
 
   @type t :: %__MODULE__{
-    value: any
+    value: any | nil,
+    arrayValues: [t],
+    structValues: %{String.t | term => t}
   }
 end
