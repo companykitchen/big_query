@@ -28,7 +28,7 @@ defmodule BigQuery.Types.Query do
     maximumBillingTier: String.t | nil ,
     useLegacySql: boolean | nil,
     parameterMode: String.t | nil,
-    queryParameters: [BigQuery.Types.Parameter]
+    queryParameters: [BigQuery.Types.Parameter.t]
   }
 
 end
