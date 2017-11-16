@@ -13,6 +13,9 @@ defmodule BigQuery.Types.Query do
   * dryRun - [Optional] Don't actually execute the query.
   * useQueryCache - [Optional] Whether to look for the result in the query cache.
   * maximumBillingTier - [Optional] Overrides the bigquery default value for the billing tier limit
+  * useLegacySql - Specify BigQuery's legacy SQL dialect (default true).
+  * parameterMode - If `useLegacySql` is false, must set parameterMode to 'POSITIONAL' or 'NAMED'.
+  * queryParameters - If `useLegacySql` is false, use for the list of query parameters.
   """
   defstruct kind: "bigquery#queryRequest", query: nil, maxResults: nil,
             defaultDataset: nil, timeoutMs: nil, dryRun: nil, useQueryCache: nil, maximumBillingTier: nil, useLegacySql: nil, parameterMode: nil, queryParameters: []
@@ -31,6 +34,21 @@ defmodule BigQuery.Types.Query do
     queryParameters: [BigQuery.Types.Parameter.t]
   }
 
+end
+
+defimpl Poison.Encoder, for: BigQuery.Types.Query do
+  def encode(%{useLegacySql: false} = query, options) do
+    query
+    |> Map.from_struct()
+    |> Poison.Encoder.encode(options)
+  end
+
+  def encode(query, options) do
+    query
+    |> Map.from_struct()
+    |> Map.take([:kind, :query, :maxResults, :defaultDataset, :timeoutMs, :dryRun, :useQueryCache, :maximumBillingTier, :useLegacySql])
+    |> Poison.Encoder.encode(options)
+  end
 end
 
 defmodule BigQuery.Types.QueryResultCell do
