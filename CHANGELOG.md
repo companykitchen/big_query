@@ -48,3 +48,7 @@
 * Added `parameterMode` query parameter for "Standard SQL" queries. [PR #14](https://github.com/companykitchen/big_query/pull/14)
 * Added `queryParameters` query parameter. [PR #14](https://github.com/companykitchen/big_query/pull/14)
 * Added configurable timeout. [PR #12](https://github.com/companykitchen/big_query/pull/12)
+
+# 0.0.12
+
+* Fix issue around query jobs and `useLegacySql`. [PR #18](https://github.com/companykitchen/big_query/pull/18)
