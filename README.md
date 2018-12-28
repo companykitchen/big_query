@@ -2,6 +2,10 @@
 
 An Elixir client for the Google BigQuery API.
 
+**DEPRECATED**
+
+Now that an official(*ish*) Google BigQuery API client is available at [https://github.com/googleapis/elixir-google-api/tree/master/clients/big_query](https://github.com/googleapis/elixir-google-api/tree/master/clients/big_query), you should probably be using it instead.
+
 ## Installation
 
 BigQuery is [available in Hex](https://hex.pm/packages/big_query). The package can be installed as:
