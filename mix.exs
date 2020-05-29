@@ -2,26 +2,30 @@ defmodule BigQuery.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :big_query,
-     version: "0.0.13",
-     name: "BigQuery",
-     source_url: "https://github.com/companykitchen/big_query",
-     elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps(),
-     docs: [extras: ["README.md"]],
-     description: "A Google BigQuery API client.",
-     package: package()]
+    [
+      app: :big_query,
+      version: "0.0.14",
+      name: "BigQuery",
+      source_url: "https://github.com/companykitchen/big_query",
+      elixir: "~> 1.3",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      docs: [extras: ["README.md"]],
+      description: "A Google BigQuery API client.",
+      package: package()
+    ]
   end
 
   # Configuration for the OTP application
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :jose, :httpoison, :poison],
-     mod: {BigQuery, []},
-     env: [bigquery_private_key_path: "priv/bigquery_private_key.json"]]
+    [
+      applications: [:logger, :jose, :httpoison, :poison],
+      mod: {BigQuery, []},
+      env: [bigquery_private_key_path: "priv/bigquery_private_key.json"]
+    ]
   end
 
   # Dependencies can be Hex packages:
