@@ -2,16 +2,17 @@ defmodule BigQuery.Types.JobConfiguration do
   defstruct [:copy, :dryRun, :extract, :load, :query]
 
   @type t :: %__MODULE__{
-    copy: map(),
-    dryRun: boolean,
-    extract: map(),
-    load: map(),
-    query: map
-  }
+          copy: map(),
+          dryRun: boolean,
+          extract: map(),
+          load: map(),
+          query: map
+        }
 end
 
 defmodule BigQuery.Types.ConfigurationQuery do
   alias BigQuery.Types.{DatasetReference, TableReference}
+
   @moduledoc """
   Configuration for a Query job.
   See https://cloud.google.com/bigquery/docs/reference/v2/jobs#configuration.query
@@ -34,31 +35,43 @@ defmodule BigQuery.Types.ConfigurationQuery do
   * labels - [Optional]
   """
   defstruct [
-    :allowLargeResults, :createDisposition, :defaultDataset,
-    :destinationTable, :flattenResults, :maximumBillingTier, :priority, :query,
-    :tableDefinitions, :useLegacySql, :useQueryCache,
-    :userDefinedFunctionResources, :writeDisposition]
+    :allowLargeResults,
+    :createDisposition,
+    :defaultDataset,
+    :destinationTable,
+    :flattenResults,
+    :maximumBillingTier,
+    :priority,
+    :query,
+    :tableDefinitions,
+    :useLegacySql,
+    :useQueryCache,
+    :userDefinedFunctionResources,
+    :writeDisposition,
+    :labels
+  ]
 
   @type t :: %__MODULE__{
-    allowLargeResults: boolean,
-    createDisposition: String.t,
-    defaultDataset: DatasetReference.t,
-    destinationTable: TableReference.t,
-    flattenResults: boolean,
-    maximumBillingTier: integer,
-    priority: String.t,
-    query: String.t,
-    tableDefinitions: map(),
-    useLegacySql: boolean,
-    useQueryCache: boolean,
-    userDefinedFunctionResources: [map()],
-    writeDisposition: String.t
-  }
+          allowLargeResults: boolean,
+          createDisposition: String.t(),
+          defaultDataset: DatasetReference.t(),
+          destinationTable: TableReference.t(),
+          flattenResults: boolean,
+          maximumBillingTier: integer,
+          priority: String.t(),
+          query: String.t(),
+          tableDefinitions: map(),
+          useLegacySql: boolean,
+          useQueryCache: boolean,
+          userDefinedFunctionResources: [map()],
+          writeDisposition: String.t(),
+          labels: map()
+        }
 end
-
 
 defmodule BigQuery.Types.ConfigurationLoad do
   alias BigQuery.Types.{TableReference, Schema}
+
   @moduledoc """
   Configuration for a Load job.
   See https://cloud.google.com/bigquery/docs/reference/v2/jobs#configuration.load
@@ -86,29 +99,44 @@ defmodule BigQuery.Types.ConfigurationLoad do
 
   """
   defstruct [
-    :allowJaggedRows, :allowQuotedNewlines, :autodetect,
-    :createDisposition, :destinationTable, :encoding, :fieldDelimiter, :ignoreUnknownValues,
-    :maxBadRecords, :projectionFields, :quote, :schema, :schemaInline, :schemaInlineFormat,
-    :skipLeadingRows, :sourceFormat, :sourceUris, :writeDisposition]
+    :allowJaggedRows,
+    :allowQuotedNewlines,
+    :autodetect,
+    :createDisposition,
+    :destinationTable,
+    :encoding,
+    :fieldDelimiter,
+    :ignoreUnknownValues,
+    :maxBadRecords,
+    :projectionFields,
+    :quote,
+    :schema,
+    :schemaInline,
+    :schemaInlineFormat,
+    :skipLeadingRows,
+    :sourceFormat,
+    :sourceUris,
+    :writeDisposition
+  ]
 
   @type t :: %__MODULE__{
-    allowJaggedRows: boolean,
-    allowQuotedNewlines: boolean,
-    autodetect: boolean,
-    createDisposition: String.t,
-    destinationTable: TableReference.t,
-    encoding: String.t,
-    fieldDelimiter: String.t,
-    ignoreUnknownValues: boolean,
-    maxBadRecords: integer,
-    projectionFields: [],
-    quote: String.t,
-    schema: Schema.t,
-    schemaInline: String.t,
-    schemaInlineFormat: String.t,
-    skipLeadingRows: integer,
-    sourceFormat: String.t,
-    sourceUris: [],
-    writeDisposition: String.t
-  }
+          allowJaggedRows: boolean,
+          allowQuotedNewlines: boolean,
+          autodetect: boolean,
+          createDisposition: String.t(),
+          destinationTable: TableReference.t(),
+          encoding: String.t(),
+          fieldDelimiter: String.t(),
+          ignoreUnknownValues: boolean,
+          maxBadRecords: integer,
+          projectionFields: [],
+          quote: String.t(),
+          schema: Schema.t(),
+          schemaInline: String.t(),
+          schemaInlineFormat: String.t(),
+          skipLeadingRows: integer,
+          sourceFormat: String.t(),
+          sourceUris: [],
+          writeDisposition: String.t()
+        }
 end
