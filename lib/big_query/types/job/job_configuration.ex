@@ -28,9 +28,10 @@ defmodule BigQuery.Types.ConfigurationQuery do
   * query - [Required] BigQuery SQL query to execute.
   * tableDefinitions - [Optional] If querying an external data source outside of BigQuery, describes it.
   * useLegacySql - [Experimental] Specifies whether to use BigQuery's legacy SQL dialect for this query.
-  * useQueryCache - [Optional] Whether to look for the result in the query cache. 
+  * useQueryCache - [Optional] Whether to look for the result in the query cache.
   * userDefinedFunctionResources - [Experimental] Describes user-defined function resources used in the query.
   * writeDisposition - [Optional] Specifies the action that occurs if the destination table already exists.
+  * labels - [Optional]
   """
   defstruct [
     :allowLargeResults, :createDisposition, :defaultDataset,
